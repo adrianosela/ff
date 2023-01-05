@@ -45,7 +45,7 @@ func NewFeatureFlag(id string, value float64) (*FeatureFlag, error) {
 func (ff *FeatureFlag) IsEnabled() bool {
 	ensureRandIsSeeded()
 
-	return rand.Float64() < ff.Value
+	return rand.Float64() <= ff.Value
 }
 
 // IsEnabledForUser returns true if the treatment represented by
@@ -53,7 +53,7 @@ func (ff *FeatureFlag) IsEnabled() bool {
 // flag's value does not change, this will always return the same
 // result for any given user identifier.
 func (ff *FeatureFlag) IsEnabledForUser(userID string) bool {
-	return toUniformFloat64(fmt.Sprintf("%s%s", ff.ID, userID)) < ff.Value
+	return toUniformFloat64(fmt.Sprintf("%s%s", ff.ID, userID)) <= ff.Value
 }
 
 // leverages the uniform distribution of cryptographic hashing
